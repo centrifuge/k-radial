@@ -156,7 +156,7 @@ interface mint(address usr, uint wad)
 
 types
      
-    Medallion : address MintLike
+    Medallion : address Medallion
     Roof      : uint256
     Wad       : uint256
     User      : uint256
@@ -167,13 +167,41 @@ storage
     roof         |-> Roof
 
 storage Medallion 
-    totalSupply  |-> Supply
+    totalSupply  |-> Supply => Supply + Wad
     
 iff 
-
+    
+    Supply + Wad <= Roof  
     VCallValue == 0
 
+calls
+   
+    addui
+    Medallion.totalSupply
+    Medallion.mint
 ```
+
+### Lemmas
+
+#### Arithmetic
+
+```act
+behaviour addui of Ceiling
+interface add(uint256 x, int256 y) internal
+
+stack
+
+   #unsigned(y) : x : JMPTO : WS => JMPTO : x + y : WS
+
+iff in range uint256
+
+   x + y
+
+if
+
+   #sizeWordStack(WS) <= 1015
+```
+
 
 
 # Medallion
