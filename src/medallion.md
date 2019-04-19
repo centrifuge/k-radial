@@ -161,10 +161,6 @@ storage
 
     roof |-> Roof 
 
-iff
-
-    VCallValue == 0
-
 returns Roof
 ```
 
@@ -189,8 +185,6 @@ storage Medallion
     totalSupply  |-> Supply
     
 iff 
-    
-    totalSupply 
 
     VCallValue == 0
 
