@@ -10,7 +10,7 @@ rule #Ceiling.wards[A] => #hashedLocation("Solidity", 0, A)
 
 syntax Int ::= "#Ceiling.roof" [function]
 // -----------------------------------------------
-// doc: maxium value of tokenSupply that can be reached 
+// doc: maximum value of tokenSupply that can be reached 
 // act: Ceiling ensures the token has no more than .` supply 
 rule #Ceiling.roof => 1
 
