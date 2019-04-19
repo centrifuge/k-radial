@@ -184,11 +184,12 @@ iff
     TotalSupply + wad <= Roof 
 
     VCallValue == 0
+    // act: call stack is not too big
+    VCallDepth < 1024
 
 calls
     Medallion.mint
     Medallion.totalSupply
-
 ```
 
 
