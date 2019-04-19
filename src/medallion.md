@@ -165,7 +165,7 @@ iff
 
     VCallValue == 0
 
-returns May
+returns Roof
 ```
 
 
@@ -188,7 +188,6 @@ storage
 storage Medallion 
     totalSupply  |-> Supply
     
-
 iff 
     
     totalSupply 
