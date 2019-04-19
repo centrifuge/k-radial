@@ -37,7 +37,7 @@ types
 
 storage
 
-    roof |-> Supply
+    roof |-> Roof 
 
 iff
 
@@ -147,21 +147,6 @@ iff
 if
 
     CALLER_ID == usr
-```
-
-```
-behaviour roof of Ceiling 
-interface roof()
-
-types
-
-    Roof : uint256
-
-storage
-
-    roof |-> Roof 
-
-returns Roof
 ```
 
 
