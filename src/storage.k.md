@@ -21,17 +21,6 @@ syntax Int ::= "#Ceiling.roof" [function]
 rule #Ceiling.roof => 2
 ```
 
-### MintLike
-TODO: This is probably need
-
-```k
-syntax Int ::= "#MintLike.totalSupply" [function]
-// ----------------------------------------------
-// doc: total supply of a token contract
-// act:
-rule #MintLike.totalSupply => 0
-```
-
 ### Medallion
 ```k
 syntax Int ::= "#Medallion.wards" "[" Int "]" [function]

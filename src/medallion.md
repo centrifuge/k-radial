@@ -163,17 +163,22 @@ types
     Supply    : uint256
 
 storage
-    tkn          |-> Medallion
-    roof         |-> Roof
+
+    wards[CALLER_ID] |-> May
+    tkn              |-> Medallion
+    roof             |-> Roof
 
 storage Medallion 
     totalSupply  |-> Supply => Supply + Wad
     
 iff 
-    
-    Supply + Wad <= Roof  
+   
+    // act: caller `. ? : not` authorised
+    May == 1
     VCallValue == 0
 
+    Supply + Wad <= Roof  
+    
 calls
    
     addui
