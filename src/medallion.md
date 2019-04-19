@@ -172,6 +172,7 @@ storage Medallion
     totalSupply    |-> TotalSupply => TotalSupply + wad
    
 iff in range uint256
+    
     UsrBal + wad
     TotalSupply + wad
    
@@ -183,7 +184,11 @@ iff
     TotalSupply + wad <= Roof 
 
     VCallValue == 0
- 
+
+calls
+    Medallion.mint
+    Medallion.totalSupply
+
 ```
 
 
