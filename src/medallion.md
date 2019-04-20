@@ -167,10 +167,11 @@ storage
     tkn              |-> Medallion
     roof             |-> Roof
 
-storage Medallion 
-    balanceOf[usr] |-> UsrBal => UsrBal + wad
-    totalSupply    |-> TotalSupply => TotalSupply + wad
-   
+storage Medallion
+    balanceOf[usr]   |-> UsrBal => UsrBal + wad
+    totalSupply      |-> TotalSupply => TotalSupply + wad
+    wards[ACCT_ID] |-> May_medallion
+
 iff in range uint256
     
     UsrBal + wad
@@ -180,7 +181,7 @@ iff
    
     // act: caller `. ? : not` authorised
     May == 1
-    
+    May_medallion == 1
     TotalSupply + wad <= Roof 
 
     VCallValue == 0
