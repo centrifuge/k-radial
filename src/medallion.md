@@ -156,10 +156,12 @@ interface mint(address usr, uint wad)
 
 types
      
-    Medallion   : address Medallion
-    Roof        : uint256
-    TotalSupply : uint256
-    UsrBal      : uint256
+    Medallion     : address Medallion
+    Roof          : uint256
+    TotalSupply   : uint256
+    UsrBal        : uint256
+    May           : uint256
+    May_medallion : uint256
 
 storage
 
@@ -170,7 +172,7 @@ storage
 storage Medallion
     balanceOf[usr]   |-> UsrBal => UsrBal + wad
     totalSupply      |-> TotalSupply => TotalSupply + wad
-    wards[ACCT_ID] |-> May_medallion
+    wards[ACCT_ID]   |-> May_medallion
 
 iff in range uint256
     
@@ -188,9 +190,6 @@ iff
     // act: call stack is not too big
     VCallDepth < 1024
 
-calls
-    Medallion.mint
-    Medallion.totalSupply
 ```
 
 
