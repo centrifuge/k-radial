@@ -189,6 +189,7 @@ iff
     VCallValue == 0
     // act: call stack is not too big
     VCallDepth < 1024
+    VGas >= 3000000
 
 ```
 
