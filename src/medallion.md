@@ -190,9 +190,7 @@ iff
     // act: call stack is not too big
     VCallDepth < 1024
     VGas >= 3000000
-
 ```
-
 
 # Medallion
 
@@ -571,10 +569,6 @@ iff
 
     May == 1
     VCallValue == 0
-
-calls
-    
-    addui
 
 ```
 ```act
