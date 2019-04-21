@@ -14,7 +14,10 @@
     "Ceiling": {
       "solc_output": "./medallion/out/ceiling.sol.json"
     },
-
+    "Medallion": {
+      "name": "Medallion",
+      "solc_output": "./medallion/out/medallion.sol.json"
+    },
     "MintLike": {
       "name": "MintLike",
       "solc_output": "./medallion/out/lib.sol.json"
