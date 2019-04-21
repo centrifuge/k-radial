@@ -190,6 +190,11 @@ iff
     // act: call stack is not too big
     VCallDepth < 1024
     VGas >= 3000000
+
+calls
+    
+    Medallion.tokenSupply
+    Medallion.mint
 ```
 
 # Medallion
