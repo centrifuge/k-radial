@@ -192,10 +192,30 @@ iff
     VGas >= 3000000
 
 calls
-    
+   
+    adduu
     Medallion.tokenSupply
     Medallion.mint
 ```
+
+```act
+behaviour adduu of Ceiling
+interface add(uint256 x, uint256 y) internal
+
+stack
+
+    y : x : JMPTO : WS => JMPTO : x + y : WS
+
+iff in range uint256
+
+    x + y
+
+if
+
+    // TODO: strengthen
+    #sizeWordStack(WS) <= 100
+```
+
 
 # Medallion
 
@@ -513,7 +533,7 @@ iff in range uint256
     DstBal + wad
 
 iff
-    (#rangeUint(256, Allowed - wad) or src == CALLER_ID)
+    #rangeUint(256, Allowed - wad) or src == CALLER_ID
     VCallValue == 0
 
 if
@@ -541,7 +561,7 @@ iff in range uint256
     SrcBal - wad
 
 iff
-    (#rangeUint(256, Allowed - wad) or src == CALLER_ID)
+    #rangeUint(256, Allowed - wad) or src == CALLER_ID
     VCallValue == 0
 
 if
@@ -598,7 +618,7 @@ iff in range uint256
 
 iff
 
-    (#rangeUint(256, Allowed - wad) or src == CALLER_ID)
+    #rangeUint(256, Allowed - wad) or src == CALLER_ID
     VCallValue == 0
 ```
 
