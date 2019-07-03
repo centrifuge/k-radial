@@ -8,7 +8,7 @@ The ceiling contract is a ward on a token contract and limits minting to never s
 ### Accessors
 
 ```act
-behaviour wards of Ceiling 
+behaviour wards of Ceiling
 interface wards(address usr)
 
 types
@@ -37,7 +37,7 @@ types
 
 storage
 
-    roof |-> Roof 
+    roof |-> Roof
 
 iff
 
@@ -55,7 +55,7 @@ returns Roof
 Any owner can add and remove owners.
 
 ```act
-behaviour rely-diff of Ceiling 
+behaviour rely-diff of Ceiling
 interface rely(address usr)
 
 types
@@ -155,7 +155,7 @@ behaviour mint of Ceiling
 interface mint(address usr, uint wad)
 
 types
-     
+
     Token     : address Token
     Roof          : uint256
     TotalSupply   : uint256
@@ -175,16 +175,16 @@ storage Token
     wards[ACCT_ID]   |-> May_medallion
 
 iff in range uint256
-    
+
     UsrBal + wad
     TotalSupply + wad
-   
-iff 
-   
+
+iff
+
     // act: caller `. ? : not` authorised
     May == 1
     May_medallion == 1
-    TotalSupply + wad <= Roof 
+    TotalSupply + wad <= Roof
 
     VCallValue == 0
     // act: call stack is not too big
@@ -331,7 +331,7 @@ iff
 
     VCallValue == 0
 
-returnsRaw #asByteStackInWidthaux(32, 31, 32, #enc(#string("Token Stablecoin")))
+returnsRaw #asByteStackInWidthaux(32, 31, 32, #enc(#string("Centrifuge Token")))
 ```
 
 ```act
@@ -353,7 +353,7 @@ iff
 
     VCallValue == 0
 
-returnsRaw #asByteStackInWidthaux(32, 31, 32, #enc(#string("DAI")))
+returnsRaw #asByteStackInWidthaux(32, 31, 32, #enc(#string("CENT")))
 ```
 
 ```act
