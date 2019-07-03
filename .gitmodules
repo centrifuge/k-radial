@@ -1,3 +1,6 @@
 [submodule "medallion"]
 	path = medallion
 	url = https://github.com/lucasvo/token.git
+[submodule "token"]
+	path = token
+	url = https://github.com/lucasvo/token/

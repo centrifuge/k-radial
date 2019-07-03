@@ -1,4 +1,4 @@
-What follows is an executable K specification of the smart contracts for the Centrifuge Medallion Token. Thanks goes to DappHub for their work on multicollateral dai.
+What follows is an executable K specification of the smart contracts for the Centrifuge Token Token. Thanks goes to DappHub for their work on multicollateral dai.
 
 # Ceiling
 The ceiling contract is a ward on a token contract and limits minting to never succeed a set limit on totalSupply.
@@ -156,7 +156,7 @@ interface mint(address usr, uint wad)
 
 types
      
-    Medallion     : address Medallion
+    Token     : address Token
     Roof          : uint256
     TotalSupply   : uint256
     UsrBal        : uint256
@@ -166,10 +166,10 @@ types
 storage
 
     wards[CALLER_ID] |-> May
-    tkn              |-> Medallion
+    tkn              |-> Token
     roof             |-> Roof
 
-storage Medallion
+storage Token
     balanceOf[usr]   |-> UsrBal => UsrBal + wad
     totalSupply      |-> TotalSupply => TotalSupply + wad
     wards[ACCT_ID]   |-> May_medallion
@@ -193,8 +193,8 @@ iff
 
 calls:
     Ceiling.adduu
-    Medallion.totalSupply
-    Medallion.balanceOf
+    Token.totalSupply
+    Token.balanceOf
 ```
 
 ### Lemmas
@@ -209,18 +209,16 @@ if
     // TODO: strengthen
     #sizeWordStack(WS) <= 1000
 ```
+# Token
 
-# Medallion
-
-The `Medallion` contract is the user facing ERC20 contract maintaining the accounting for external Medallion balances. Most functions are standard for a token with changing supply, but it also notably features the ability to issue approvals for transferFroms based on signed messages, called `Permit`s.
+The `Token` contract is the user facing ERC20 contract maintaining the accounting for external Token balances. Most functions are standard for a token with changing supply, but it also notably features the ability to issue approvals for transferFroms based on signed messages, called `Permit`s.
 
 ## Specification of behaviours
 
 ### Accessors
 
-<-- TODO: Name, symbol, domain separator (requires dynamic types) -->
 ```act
-behaviour wards of Medallion
+behaviour wards of Token
 interface wards(address usr)
 
 for all
@@ -239,7 +237,7 @@ returns May
 ```
 
 ```act
-behaviour allowance of Medallion
+behaviour allowance of Token
 interface allowance(address holder, address spender)
 
 types
@@ -258,7 +256,7 @@ returns Allowed
 ```
 
 ```act
-behaviour balanceOf of Medallion
+behaviour balanceOf of Token
 interface balanceOf(address who)
 
 types
@@ -277,7 +275,7 @@ returns Balance
 ```
 
 ```act
-behaviour totalSupply of Medallion
+behaviour totalSupply of Token
 interface totalSupply()
 
 types
@@ -296,7 +294,7 @@ returns Supply
 ```
 
 ```act
-behaviour nonces of Medallion
+behaviour nonces of Token
 interface nonces(address who)
 
 types
@@ -315,12 +313,8 @@ returns Nonce
 ```
 
 ```act
-behaviour decimals of Medallion
+behaviour decimals of Token
 interface decimals()
-
-storage
-
-    decimals |-> 18
 
 iff
 
@@ -330,18 +324,66 @@ returns 18
 ```
 
 ```act
-behaviour permit_TYPEHASH of Medallion
-interface permit_TYPEHASH()
-
-storage
-
-    permit_TYPEHASH |-> keccak(#parseBytesRaw("Permit(address holder,address spender,uint256 nonce,uint256 deadline,bool allowed)")
+behaviour name of Token
+interface name()
 
 iff
 
     VCallValue == 0
 
-returns keccak(#parseBytesRaw("Permit(address holder,address spender,uint256 nonce,uint256 deadline,bool allowed)")
+returnsRaw #asByteStackInWidthaux(32, 31, 32, #enc(#string("Token Stablecoin")))
+```
+
+```act
+behaviour version of Token
+interface version()
+
+iff
+
+    VCallValue == 0
+
+returnsRaw #asByteStackInWidthaux(32, 31, 32, #enc(#string("1")))
+```
+
+```act
+behaviour symbol of Token
+interface symbol()
+
+iff
+
+    VCallValue == 0
+
+returnsRaw #asByteStackInWidthaux(32, 31, 32, #enc(#string("DAI")))
+```
+
+```act
+behaviour PERMIT_TYPEHASH of Token
+interface PERMIT_TYPEHASH()
+
+iff
+
+    VCallValue == 0
+
+returns keccak(#parseByteStackRaw("Permit(address holder,address spender,uint256 nonce,uint256 expiry,bool allowed)"))
+```
+
+```act
+behaviour DOMAIN_SEPARATOR of Token
+interface DOMAIN_SEPARATOR()
+
+for all
+
+    Dom : uint256
+
+storage
+
+    DOMAIN_SEPARATOR |-> Dom
+
+iff
+
+    VCallValue == 0
+
+returns Dom
 ```
 
 ### Mutators
@@ -352,18 +394,17 @@ returns keccak(#parseBytesRaw("Permit(address holder,address spender,uint256 non
 Any owner can add and remove owners.
 
 ```act
-behaviour rely-diff of Medallion
+behaviour rely-diff of Token
 interface rely(address usr)
 
 for all
 
     May   : uint256
-    Could : uint256
 
 storage
 
     wards[CALLER_ID] |-> May
-    wards[usr]       |-> Could => 1
+    wards[usr]       |-> _ => 1
 
 iff
 
@@ -377,7 +418,7 @@ if
 ```
 
 ```act
-behaviour rely-same of Medallion
+behaviour rely-same of Token
 interface rely(address usr)
 
 for all
@@ -399,18 +440,17 @@ if
 ```
 
 ```act
-behaviour deny-diff of Medallion
+behaviour deny-diff of Token
 interface deny(address usr)
 
 for all
 
     May   : uint256
-    Could : uint256
 
 storage
 
     wards[CALLER_ID] |-> May
-    wards[usr]       |-> Could => 0
+    wards[usr]       |-> _ => 0
 
 iff
 
@@ -424,7 +464,7 @@ if
 ```
 
 ```act
-behaviour deny-same of Medallion
+behaviour deny-same of Token
 interface deny(address usr)
 
 for all
@@ -438,7 +478,7 @@ storage
 iff
 
     // act: caller is `. ? : not` authorised
-    May == 1
+    Could == 1
     VCallValue == 0
 
 if
@@ -446,9 +486,44 @@ if
     CALLER_ID == usr
 ```
 
+```act
+behaviour adduu of Token
+interface add(uint256 x, uint256 y) internal
+
+stack
+
+    y : x : JMPTO : WS => JMPTO : x + y : WS
+
+iff in range uint256
+
+    x + y
+
+if
+
+    // TODO: strengthen
+    #sizeWordStack(WS) <= 100
+```
 
 ```act
-behaviour transfer-diff of Medallion
+behaviour subuu of Token
+interface sub(uint256 x, uint256 y) internal
+
+stack
+
+    y : x : JMPTO : WS => JMPTO : x - y : WS
+
+iff in range uint256
+
+    x - y
+
+if
+
+    // TODO: strengthen
+    #sizeWordStack(WS) <= 100
+```
+
+```act
+behaviour transfer-diff of Token
 interface transfer(address dst, uint wad)
 
 types
@@ -474,10 +549,15 @@ if
     CALLER_ID =/= dst
 
 returns 1
+
+calls
+
+    Token.adduu
+    Token.subuu
 ```
 
 ```act
-behaviour transfer-same of Medallion
+behaviour transfer-same of Token
 interface transfer(address dst, uint wad)
 
 types
@@ -501,11 +581,15 @@ if
     CALLER_ID == dst
 
 returns 1
+
+calls
+
+    Token.adduu
+    Token.subuu
 ```
 
-
 ```act
-behaviour transferFrom-diff of Medallion
+behaviour transferFrom-diff of Token
 interface transferFrom(address src, address dst, uint wad)
 
 types
@@ -526,17 +610,118 @@ iff in range uint256
     DstBal + wad
 
 iff
-    (#rangeUInt(256, Allowed - wad) or src == CALLER_ID)
+    wad <= Allowed or src == CALLER_ID
     VCallValue == 0
 
 if
     src =/= dst
 
 returns 1
+
+calls
+
+    Token.adduu
+    Token.subuu
 ```
 
 ```act
-behaviour transferFrom-same of Medallion
+behaviour move-diff of Token
+interface move(address src, address dst, uint wad)
+
+types
+
+    SrcBal  : uint256
+    DstBal  : uint256
+    Allowed : uint256
+
+storage
+
+    allowance[src][CALLER_ID] |-> Allowed => #if (src == CALLER_ID or Allowed == maxUInt256) #then Allowed #else Allowed - wad #fi
+    balanceOf[src]            |-> SrcBal  => SrcBal  - wad
+    balanceOf[dst]            |-> DstBal  => DstBal  + wad
+
+iff in range uint256
+
+    SrcBal - wad
+    DstBal + wad
+
+iff
+    wad <= Allowed or src == CALLER_ID
+    VCallValue == 0
+
+if
+    src =/= dst
+
+calls
+
+    Token.transferFrom-diff
+```
+
+```act
+behaviour push of Token
+interface push(address dst, uint wad)
+
+types
+
+    SrcBal  : uint256
+    DstBal  : uint256
+
+storage
+
+    balanceOf[CALLER_ID]      |-> SrcBal  => SrcBal  - wad
+    balanceOf[dst]            |-> DstBal  => DstBal  + wad
+
+iff in range uint256
+
+    SrcBal - wad
+    DstBal + wad
+
+iff
+    VCallValue == 0
+
+if
+    CALLER_ID =/= dst
+
+calls
+
+    Token.transferFrom-diff
+```
+
+```act
+behaviour pull of Token
+interface pull(address src, uint wad)
+
+types
+
+    SrcBal  : uint256
+    DstBal  : uint256
+    Allowed : uint256
+
+storage
+
+    allowance[src][CALLER_ID] |-> Allowed => #if (src == CALLER_ID or Allowed == maxUInt256) #then Allowed #else Allowed - wad #fi
+    balanceOf[src]            |-> SrcBal  => SrcBal  - wad
+    balanceOf[CALLER_ID]      |-> DstBal  => DstBal  + wad
+
+iff in range uint256
+
+    SrcBal - wad
+    DstBal + wad
+
+iff
+    wad <= Allowed or src == CALLER_ID
+    VCallValue == 0
+
+if
+    src =/= CALLER_ID
+
+calls
+
+    Token.transferFrom-diff
+```
+
+```act
+behaviour transferFrom-same of Token
 interface transferFrom(address src, address dst, uint wad)
 
 types
@@ -554,17 +739,22 @@ iff in range uint256
     SrcBal - wad
 
 iff
-    (#rangeUInt(256, Allowed - wad) or src == CALLER_ID)
+    wad <= Allowed or src == CALLER_ID
     VCallValue == 0
 
 if
     src == dst
 
 returns 1
+
+calls
+
+    Token.adduu
+    Token.subuu
 ```
 
 ```act
-behaviour mint of Medallion
+behaviour mint of Token
 interface mint(address dst, uint wad)
 
 types
@@ -588,37 +778,45 @@ iff
     May == 1
     VCallValue == 0
 
+calls
+
+    Token.adduu
 ```
 
 ```act
-behaviour burn of Medallion
+behaviour burn of Token
 interface burn(address src, uint wad)
 
 types
 
     SrcBal      : uint256
     TotalSupply : uint256
+    Allowed     : uint256
 
 storage
 
-    allowance[src][CALLER_ID] |-> Allowed => (#if src == CALLER_ID #then Allowed #else Allowed - wad #fi)
-    balanceOf[src]            |-> DstBal => DstBal - wad
+    allowance[src][CALLER_ID] |-> Allowed => #if (src == CALLER_ID or Allowed == maxUInt256) #then Allowed #else Allowed - wad #fi
+    balanceOf[src]            |-> SrcBal => SrcBal - wad
     totalSupply               |-> TotalSupply => TotalSupply - wad
 
 iff in range uint256
 
     SrcBal - wad
-    DstBal + wad
+    TotalSupply - wad
 
 iff
 
-    (#rangeUInt(256, Allowed - wad) or src == CALLER_ID)
+    (Allowed == maxUInt256) or (wad <= Allowed) or (src == CALLER_ID)
     VCallValue == 0
+
+calls
+
+    Token.subuu
 ```
 
 
 ```act
-behaviour approve of Medallion
+behaviour approve of Token
 interface approve(address usr, uint wad)
 
 types
@@ -636,28 +834,32 @@ returns 1
 ```
 
 ```act
-behaviour permit of Medallion
-interface permit(address holder, address spender, uint256 nonce, uint256 deadline, bool allowed, uint8 v, bytes32 r, bytes32 s)
+behaviour permit of Token
+interface permit(address hodler, address ombudsman, uint256 n, uint256 ttl, bool may, uint8 v, bytes32 r, bytes32 s)
 
 types
 
-    Nonce : uint256
+    Nonce   : uint256
+    Allowed : uint256
+    Domain_separator : bytes32
 
 storage
 
-    nonces[holder]             |-> Nonce => Nonce + 1
-    allowance[holder][spender] |-> Allowed => (#if allowed == 1 #then maxUInt256 #else 0 #fi)
+    nonces[hodler]               |-> Nonce => Nonce + 1
+    DOMAIN_SEPARATOR             |-> Domain_separator
+    allowance[hodler][ombudsman] |-> Allowed => (#if may == 1 #then maxUInt256 #else 0 #fi)
 
 iff
 
-    holder == #sender(#unparseByteStack(#padToWidth(32, #asByteStack(keccak(#encodePacked(STUFF))), v,#unparseByteStack(#padToWidth(32, #asByteStack(r))), #unparseByteStack(#padToWidth(32, #asByteStack(s))))))
-    deadline == 0 or TIME < deadline
+    hodler == #symEcrec(#buf(32, keccakIntList(#asWord(#parseHexWord("0x19") : #parseHexWord("0x1") : .WordStack) Domain_separator keccakIntList(keccak(#parseByteStackRaw("Permit(address holder,address spender,uint256 nonce,uint256 expiry,bool allowed)")) hodler ombudsman n ttl may))) ++ #buf(32, v) ++ #buf(32, r) ++ #buf(32, s))
+    ttl == 0 or TIME <= ttl
     VCallValue == 0
-    nonce == Nonce
+    n == Nonce
+    VCallDepth < 1024
 
-iff in range uint256
-    Nonce + 1
+if
 
+    #rangeUInt(256, Nonce + 1)
 ```
 
 

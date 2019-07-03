@@ -2,7 +2,7 @@
   "name": "k-token",
   "url": "https://github.com/lucasvo/k-token/",
   "src": {
-    "specification": "./src/medallion.md",
+    "specification": "./src/token.md",
     "smt_prelude": "./src/prelude.smt2.md",
     "rules": [
       "./src/storage.k.md",
@@ -11,21 +11,21 @@
   },
   "implementations": {
     "Ceiling": {
-      "solc_output": "./medallion/out/ceiling.sol.json"
+      "solc_output": "./token/out/ceiling.sol.json"
     },
-    "Medallion": {
-      "name": "Medallion",
-      "solc_output": "./medallion/out/medallion.sol.json"
+    "Token": {
+      "name": "Token",
+      "solc_output": "./token/out/token.sol.json"
     },
     "MintLike": {
       "name": "MintLike",
-      "solc_output": "./medallion/out/lib.sol.json"
+      "solc_output": "./token/out/lib.sol.json"
     },
     "Budget": {
       "name": "Budget",
-      "solc_output": "./medallion/out/budget.sol.json"
+      "solc_output": "./token/out/budget.sol.json"
     }
   },
-  "dapp_root": "./medallion",
+  "dapp_root": "./token",
   "host": "127.0.0.1:8080"
 }
