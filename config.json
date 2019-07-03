@@ -10,7 +10,6 @@
     ]
   },
   "implementations": {
-
     "Ceiling": {
       "solc_output": "./medallion/out/ceiling.sol.json"
     },
@@ -21,6 +20,10 @@
     "MintLike": {
       "name": "MintLike",
       "solc_output": "./medallion/out/lib.sol.json"
+    },
+    "Budget": {
+      "name": "Budget",
+      "solc_output": "./medallion/out/budget.sol.json"
     }
   },
   "dapp_root": "./medallion",
