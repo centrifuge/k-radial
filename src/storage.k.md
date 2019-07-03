@@ -1,5 +1,5 @@
 # Token storage model
-### Ceiling 
+### Ceiling
 
 ```k
 syntax Int ::= "#Ceiling.wards" "[" Int "]" [function]
@@ -8,10 +8,10 @@ syntax Int ::= "#Ceiling.wards" "[" Int "]" [function]
 // act: address `$0` is `. == 1 ? authorised : unauthorised`
 rule #Ceiling.wards[A] => #hashedLocation("Solidity", 0, A)
 
-syntax Int ::= "#Ceiling.tkn" [function] 
+syntax Int ::= "#Ceiling.tkn" [function]
 // ----------------------------------------------
 // doc: address of the Token token contract
-// act: 
+// act:
 rule #Ceiling.tkn => 1
 
 syntax Int ::= "#Ceiling.roof" [function]
@@ -33,37 +33,37 @@ syntax Int ::= "#Token.totalSupply" [function]
 // -----------------------------------------------
 // doc: the total supply of this token
 // act: the total supply is .`
-rule #Token.totalSupply => 2
+rule #Token.totalSupply => 1
 
 syntax Int ::= "#Token.balanceOf" "[" Int "]" [function]
 // -----------------------------------------------
 // doc: the balance of a user
-// act: the balance of `$0 is .` us , 
-rule #Token.balanceOf[A] => #hashedLocation("Solidity", 3, A)
+// act: the balance of `$0 is .` us ,
+rule #Token.balanceOf[A] => #hashedLocation("Solidity", 2, A)
 
 syntax Int ::= "#Token.allowance" "[" Int "][" Int "]" [function]
 // -----------------------------------------------
 // doc: the amount that can be spent on someones behalf
 // act: `$1 can spend `.` tokens belonging to `$0`
-rule #Token.allowance[A][B] => #hashedLocation("Solidity", 4, A B)
+rule #Token.allowance[A][B] => #hashedLocation("Solidity", 3, A B)
 
 syntax Int ::= "#Token.nonces" "[" Int "]" [function]
 // -----------------------------------------------
 // doc: the amount that can be spent on someones behalf
 // act: `$1 can spend `.` tokens belonging to `$0`
-rule #Token.nonces[A] => #hashedLocation("Solidity", 5, A)
+rule #Token.nonces[A] => #hashedLocation("Solidity", 4, A)
 
 syntax Int ::= "#Token.DOMAIN_SEPARATOR" [function]
 // -----------------------------------------------
 // doc: the amount that can be spent on someones behalf
 // act: `$1 can spend `.` tokens belonging to `$0`
-rule #Token.DOMAIN_SEPARATOR => 6
+rule #Token.DOMAIN_SEPARATOR => 5
 
 syntax Int ::= "#Token.permit_TYPEHASH" [function]
 // -----------------------------------------------
 // doc: the amount that can be spent on someones behalf
 // act: `$1 can spend `.` tokens belonging to `$0`
-rule #Token.permit_TYPEHASH => 7
+rule #Token.permit_TYPEHASH => 6
 ```
 
 
