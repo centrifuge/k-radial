@@ -192,8 +192,22 @@ iff
     VGas >= 3000000
 
 calls:
+    Ceiling.adduu
     Medallion.totalSupply
     Medallion.balanceOf
+```
+
+### Lemmas
+```act
+behaviour adduu of Ceiling
+interface add(uint256 x, uint256 y) internal
+stack
+    y : x : JMPTO : WS => JMPTO : x + y : WS
+iff in range uint256
+    x + y
+if
+    // TODO: strengthen
+    #sizeWordStack(WS) <= 1000
 ```
 
 # Medallion
