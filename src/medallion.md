@@ -526,7 +526,7 @@ iff in range uint256
     DstBal + wad
 
 iff
-    (#rangeUint(256, Allowed - wad) or src == CALLER_ID)
+    (#rangeUInt(256, Allowed - wad) or src == CALLER_ID)
     VCallValue == 0
 
 if
@@ -554,7 +554,7 @@ iff in range uint256
     SrcBal - wad
 
 iff
-    (#rangeUint(256, Allowed - wad) or src == CALLER_ID)
+    (#rangeUInt(256, Allowed - wad) or src == CALLER_ID)
     VCallValue == 0
 
 if
@@ -589,6 +589,7 @@ iff
     VCallValue == 0
 
 ```
+
 ```act
 behaviour burn of Medallion
 interface burn(address src, uint wad)
@@ -611,7 +612,7 @@ iff in range uint256
 
 iff
 
-    (#rangeUint(256, Allowed - wad) or src == CALLER_ID)
+    (#rangeUInt(256, Allowed - wad) or src == CALLER_ID)
     VCallValue == 0
 ```
 
