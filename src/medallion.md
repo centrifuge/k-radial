@@ -141,7 +141,7 @@ storage
 iff
 
     // act: caller is `. ? : not` authorised
-    May == 1
+    Could == 1
     VCallValue == 0
 
 if
