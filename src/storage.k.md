@@ -1,16 +1,37 @@
 # Token storage model
+### Budget
+```k
+syntax Int ::= "#Budget.wards" "[" Int "]" [function]
+// -----------------------------------------------
+// doc: whether `$0` is an owner of `Budget`
+// act: address `$0` is `. == 1 ? authorised : unauthorised`
+rule #Budget.wards[A] => #hashedLocation("Solidity", 0, A)
+
+syntax Int ::= "#Budget.roof" [function]
+// ----------------------------------------------
+// doc: address of the Ceiling contract
+// act:
+rule #Budget.roof => 1
+
+syntax Int ::= "#Budget.budgets" "[" Int "]" [function]
+// -----------------------------------------------
+// doc: the available quantity of token for user `$0` to mint 
+// act:  
+rule #Budget.budgets[A] => #hashedLocation("Solidity", 2, A)
+```
+
 ### Ceiling
 
 ```k
 syntax Int ::= "#Ceiling.wards" "[" Int "]" [function]
 // -----------------------------------------------
-// doc: whether `$0` is an owner of `Vat`
+// doc: whether `$0` is an owner of `Ceiling`
 // act: address `$0` is `. == 1 ? authorised : unauthorised`
 rule #Ceiling.wards[A] => #hashedLocation("Solidity", 0, A)
 
 syntax Int ::= "#Ceiling.tkn" [function]
 // ----------------------------------------------
-// doc: address of the Token token contract
+// doc: address of the `Token` contract
 // act:
 rule #Ceiling.tkn => 1
 
@@ -25,7 +46,7 @@ rule #Ceiling.roof => 2
 ```k
 syntax Int ::= "#Token.wards" "[" Int "]" [function]
 // -----------------------------------------------
-// doc: whether `$0` is an owner of `Vat`
+// doc: whether `$0` is an owner of `Token`
 // act: address `$0` is `. == 1 ? authorised : unauthorised`
 rule #Token.wards[A] => #hashedLocation("Solidity", 0, A)
 

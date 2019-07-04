@@ -17,10 +17,6 @@
       "name": "Token",
       "solc_output": "./token/out/token.sol.json"
     },
-    "MintLike": {
-      "name": "MintLike",
-      "solc_output": "./token/out/lib.sol.json"
-    },
     "Budget": {
       "name": "Budget",
       "solc_output": "./token/out/budget.sol.json"

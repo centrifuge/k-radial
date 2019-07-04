@@ -1,5 +1,236 @@
 What follows is an executable K specification of the smart contracts for the Centrifuge Token Token. Thanks goes to DappHub for their work on multicollateral dai.
 
+# Budget
+The ceiling contract is a ward on a token contract and limits minting to never succeed a set limit on totalSupply.
+
+## Specification of behaviours
+
+### Accessors
+
+```act
+behaviour wards of Budget
+interface wards(address usr)
+
+types
+
+    May : uint256
+
+storage
+
+    wards[usr] |-> May
+
+iff
+
+    VCallValue == 0
+
+returns May
+```
+
+
+```act
+behaviour roof of Budget
+interface roof()
+
+types
+
+    Roof: address 
+
+storage
+  // maximum value of tokenSupply that can be reached
+  roof |-> Roof => Roof 
+
+iff
+
+    VCallValue == 0
+
+returns Roof
+```
+
+### Mutators
+
+
+#### adding and removing owners
+
+Any owner can add and remove owners.
+
+```act
+behaviour rely-diff of Budget
+interface rely(address usr)
+
+types
+
+    May   : uint256
+    Could : uint256
+
+storage
+
+    wards[CALLER_ID] |-> May
+    wards[usr]       |-> Could => 1
+
+iff
+
+    // act: caller is `. ? : not` authorised
+    May == 1
+    VCallValue == 0
+
+if
+
+    CALLER_ID =/= usr
+```
+
+```act
+behaviour rely-same of Budget
+interface rely(address usr)
+
+types
+
+    May   : uint256
+
+storage
+
+    wards[CALLER_ID] |-> May => 1
+
+iff
+
+    // act: caller is `. ? : not` authorised
+    May == 1
+    VCallValue == 0
+
+if
+    usr == CALLER_ID
+```
+
+```act
+behaviour deny-diff of Budget
+interface deny(address usr)
+
+types
+
+    May   : uint256
+    Could : uint256
+
+storage
+
+    wards[CALLER_ID] |-> May
+    wards[usr]       |-> Could => 0
+
+iff
+
+    // act: caller is `. ? : not` authorised
+    May == 1
+    VCallValue == 0
+
+if
+
+    CALLER_ID =/= usr
+```
+
+```act
+behaviour deny-same of Budget
+interface deny(address usr)
+
+types
+
+    Could : uint256
+
+storage
+
+    wards[CALLER_ID] |-> Could => 0
+
+iff
+
+    // act: caller is `. ? : not` authorised
+    Could == 1
+    VCallValue == 0
+
+if
+
+    CALLER_ID == usr
+```
+
+
+```act
+behaviour budget of Budget
+interface budget(address usr, uint wad)
+
+types
+    
+    May: uint256
+    Budget: uint256
+
+storage
+
+    wards[CALLER_ID] |-> May 
+    budgets[usr] |-> Budget => wad
+    
+
+iff
+
+    // act: caller is `. ? : not` authorised
+    May == 1
+    VCallValue == 0
+
+```
+
+
+
+```act
+behaviour mint of Budget
+interface mint(address usr, uint wad)
+
+types
+
+    Token         : address Token 
+    Ceiling       : address Ceiling 
+    TotalSupply   : uint256
+    UsrBal        : uint256
+    May           : uint256
+    May_medallion : uint256
+
+storage
+
+    wards[CALLER_ID]   |-> May
+    roof               |-> Ceiling
+    budgets[CALLER_ID] |-> Allow
+
+storage Ceiling
+    
+    wards[ACCT_ID]     |-> May_ceiling 
+    roof               |-> Roof 
+    tkn                |-> Token
+
+storage Token
+   
+    balanceOf[usr]     |-> UsrBal => UsrBal + wad
+    totalSupply        |-> TotalSupply => TotalSupply + wad
+    wards[Ceiling]     |-> May_token
+
+iff in range uint256
+
+    UsrBal + wad
+    TotalSupply + wad
+
+iff
+    
+    wad <= Allow 
+    TotalSupply + wad <= Roof
+
+
+    // act: caller `. ? : not` authorised
+    May == 1
+    May_token == 1
+    May_ceiling == 1 
+
+    VCallValue == 0
+    // act: call stack is not too big
+    VCallDepth < 1024
+    VGas >= 3000000
+
+calls
+    Ceiling.mint
+    Token.mint
+```
+
 # Ceiling
 The ceiling contract is a ward on a token contract and limits minting to never succeed a set limit on totalSupply.
 
@@ -209,8 +440,10 @@ iff
     VCallDepth < 1024
     VGas >= 3000000
 
-calls:
+calls
+
     Ceiling.adduu
+    Token.mint
     Token.totalSupply
     Token.balanceOf
 ```
