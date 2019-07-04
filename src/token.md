@@ -46,6 +46,24 @@ iff
 returns Roof
 ```
 
+```act
+behaviour tkn of Ceiling
+interface tkn()
+
+types
+
+    Tkn: address Token
+
+storage
+  // maximum value of tokenSupply that can be reached
+  tkn |-> Tkn => Tkn 
+
+iff
+
+    VCallValue == 0
+
+returns Tkn
+```
 
 ### Mutators
 
