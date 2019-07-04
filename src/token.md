@@ -1117,11 +1117,11 @@ storage
 
     nonces[hodler]               |-> Nonce => Nonce + 1
     DOMAIN_SEPARATOR             |-> Domain_separator
-    allowance[hodler][ombudsman] |-> Allowed => (#if may == 0 #then 0 #else maxUInt256 #fi) 
+    allowance[hodler][ombudsman] |-> Allowed => (#if may == 1 #then maxUInt256 #else 0 #fi)
 
 iff
 
-    hodler == #symEcrec(keccakIntList(#asWord(#parseHexWord("0x19") : #parseHexWord("0x1") : .WordStack) Domain_separator keccakIntList(keccak(#parseByteStackRaw("Permit(address holder,address spender,uint256 nonce,uint256 expiry,bool allowed)")) hodler ombudsman n ttl may)), v, r, s)
+    hodler == #symEcrec(#buf(32, keccakIntList(#asWord(#parseHexWord("0x19") : #parseHexWord("0x1") : .WordStack) Domain_separator keccakIntList(keccak(#parseByteStackRaw("Permit(address holder,address spender,uint256 nonce,uint256 expiry,bool allowed)")) hodler ombudsman n ttl may))) ++ #buf(32, v) ++ #buf(32, r) ++ #buf(32, s))
     ttl == 0 or TIME <= ttl
     VCallValue == 0
     n == Nonce
