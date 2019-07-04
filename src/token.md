@@ -28,6 +28,25 @@ returns May
 
 
 ```act
+behaviour budgets of Budget
+interface budgets(address usr)
+
+types
+
+    Allowance: uint256 
+
+storage
+    budgets[usr] |-> Allowance => Allowance
+
+iff
+
+    VCallValue == 0
+
+returns Allowance 
+```
+
+
+```act
 behaviour roof of Budget
 interface roof()
 
@@ -173,7 +192,6 @@ iff
 ```
 
 
-
 ```act
 behaviour mint of Budget
 interface mint(address usr, uint wad)
@@ -223,12 +241,15 @@ iff
 
     VCallValue == 0
     // act: call stack is not too big
-    VCallDepth < 1024
+    VCallDepth < 1023
     VGas >= 3000000
 
 calls
     Ceiling.mint
     Token.mint
+
+if
+    Token =/= Ceiling
 ```
 
 # Ceiling
