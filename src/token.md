@@ -224,7 +224,8 @@ storage Token
     wards[Ceiling]     |-> May_token
 
 iff in range uint256
-
+  
+    Allow - wad
     UsrBal + wad
     TotalSupply + wad
 
@@ -242,11 +243,9 @@ iff
     VCallValue == 0
     // act: call stack is not too big
     VCallDepth < 1023
-    VGas >= 3000000
 
 calls
     Ceiling.mint
-    Token.mint
 
 if
     Token =/= Ceiling
@@ -459,7 +458,6 @@ iff
     VCallValue == 0
     // act: call stack is not too big
     VCallDepth < 1024
-    VGas >= 3000000
 
 calls
 

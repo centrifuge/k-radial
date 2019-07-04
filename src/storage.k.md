@@ -10,18 +10,17 @@ rule #Budget.wards[A] => #hashedLocation("Solidity", 0, A)
 syntax Int ::= "#Budget.roof" [function]
 // ----------------------------------------------
 // doc: address of the Ceiling contract
-// act:
+// act: Ceiling is `$0`
 rule #Budget.roof => 1
 
 syntax Int ::= "#Budget.budgets" "[" Int "]" [function]
 // -----------------------------------------------
 // doc: the available quantity of token for user `$0` to mint 
-// act:  
+// act: budget of address `$0` is `.`  
 rule #Budget.budgets[A] => #hashedLocation("Solidity", 2, A)
 ```
 
 ### Ceiling
-
 ```k
 syntax Int ::= "#Ceiling.wards" "[" Int "]" [function]
 // -----------------------------------------------
