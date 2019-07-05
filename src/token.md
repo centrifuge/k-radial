@@ -209,7 +209,7 @@ storage
 
     wards[CALLER_ID]   |-> May
     roof               |-> Ceiling
-    budgets[CALLER_ID] |-> Allow
+    budgets[CALLER_ID] |-> Allow => Allow - wad
 
 storage Ceiling
     
