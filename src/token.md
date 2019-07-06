@@ -33,7 +33,7 @@ interface budgets(address usr)
 
 types
 
-    Allowance: uint256 
+    Allowance: uint256
 
 storage
     budgets[usr] |-> Allowance => Allowance
@@ -42,7 +42,7 @@ iff
 
     VCallValue == 0
 
-returns Allowance 
+returns Allowance
 ```
 
 
@@ -52,11 +52,11 @@ interface roof()
 
 types
 
-    Roof: address 
+    Roof: address
 
 storage
   // maximum value of tokenSupply that can be reached
-  roof |-> Roof => Roof 
+  roof |-> Roof => Roof
 
 iff
 
@@ -173,15 +173,15 @@ behaviour budget of Budget
 interface budget(address usr, uint wad)
 
 types
-    
+
     May: uint256
     Budget: uint256
 
 storage
 
-    wards[CALLER_ID] |-> May 
+    wards[CALLER_ID] |-> May
     budgets[usr] |-> Budget => wad
-    
+
 
 iff
 
@@ -198,8 +198,8 @@ interface mint(address usr, uint wad)
 
 types
 
-    Token         : address Token 
-    Ceiling       : address Ceiling 
+    Token         : address Token
+    Ceiling       : address Ceiling
     TotalSupply   : uint256
     UsrBal        : uint256
     May           : uint256
@@ -212,33 +212,33 @@ storage
     budgets[CALLER_ID] |-> Allow => Allow - wad
 
 storage Ceiling
-    
-    wards[ACCT_ID]     |-> May_ceiling 
-    roof               |-> Roof 
+
+    wards[ACCT_ID]     |-> May_ceiling
+    roof               |-> Roof
     tkn                |-> Token
 
 storage Token
-   
+
     balanceOf[usr]     |-> UsrBal => UsrBal + wad
     totalSupply        |-> TotalSupply => TotalSupply + wad
     wards[Ceiling]     |-> May_token
 
 iff in range uint256
-  
+
     Allow - wad
     UsrBal + wad
     TotalSupply + wad
 
 iff
-    
-    wad <= Allow 
+
+    wad <= Allow
     TotalSupply + wad <= Roof
 
 
     // act: caller `. ? : not` authorised
     May == 1
     May_token == 1
-    May_ceiling == 1 
+    May_ceiling == 1
 
     VCallValue == 0
     // act: call stack is not too big
@@ -307,7 +307,7 @@ types
 
 storage
   // maximum value of tokenSupply that can be reached
-  tkn |-> Tkn => Tkn 
+  tkn |-> Tkn => Tkn
 
 iff
 
@@ -1115,9 +1115,9 @@ types
 
 storage
 
-    nonces[hodler]               |-> Nonce => Nonce + 1
+    nonces[hodler]               |-> Nonce => 1 + Nonce
     DOMAIN_SEPARATOR             |-> Domain_separator
-    allowance[hodler][ombudsman] |-> Allowed => (#if may == 0 #then 0 #else maxUInt256 #fi) 
+    allowance[hodler][ombudsman] |-> Allowed => (#if may == 0 #then 0 #else maxUInt256 #fi)
 
 iff
 
@@ -1130,6 +1130,7 @@ iff
 if
 
     #rangeUInt(256, Nonce + 1)
+    #rangeUInt(256, ECREC_BAL)
 ```
 
 
