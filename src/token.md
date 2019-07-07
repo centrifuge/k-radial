@@ -202,8 +202,11 @@ types
     Ceiling       : address Ceiling
     TotalSupply   : uint256
     UsrBal        : uint256
+    Allow         : uint256
+    Roof          : uint256
     May           : uint256
-    May_medallion : uint256
+    May_ceiling   : uint256
+    May_token     : uint256
 
 storage
 
@@ -227,13 +230,10 @@ iff in range uint256
 
     Allow - wad
     UsrBal + wad
-    TotalSupply + wad
 
 iff
-
-    wad <= Allow
+    
     TotalSupply + wad <= Roof
-
 
     // act: caller `. ? : not` authorised
     May == 1
