@@ -204,13 +204,11 @@ types
     UsrBal        : uint256
     Allow         : uint256
     Roof          : uint256
-    May           : uint256
     May_ceiling   : uint256
     May_token     : uint256
 
 storage
 
-    wards[CALLER_ID]   |-> May
     roof               |-> Ceiling
     budgets[CALLER_ID] |-> Allow => Allow - wad
 
@@ -236,7 +234,6 @@ iff
     TotalSupply + wad <= Roof
 
     // act: caller `. ? : not` authorised
-    May == 1
     May_token == 1
     May_ceiling == 1
 
