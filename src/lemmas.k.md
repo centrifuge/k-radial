@@ -42,6 +42,15 @@ rule chop(keccakIntList(L)) => keccakIntList(L)
 rule chop(N +Int keccakIntList(L)) => keccakIntList(L) +Int N
   requires N <=Int 100
 ```
+### ecrecover ###
+```k
+//assume ecrec returns an address
+rule maxUInt160 &Int #symEcrec(MSG, V, R, S) => #symEcrec(MSG, V, R, S)
+
+    rule 0 <=Int #symEcrec(MSG, V, R, S)             => true
+    rule         #symEcrec(MSG, V, R, S) <Int pow256 => true
+```
+
 
 ### solidity masking
 

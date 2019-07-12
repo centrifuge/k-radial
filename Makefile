@@ -5,9 +5,9 @@ yellow:=$(shell tput setaf 3)
 bold:=$(shell tput bold)
 reset:=$(shell tput sgr0)
 
-DAPP_DIR = $(CURDIR)/medallion
+DAPP_DIR = $(CURDIR)/token
 SRC_DIR = $(CURDIR)/src
-SRCS = $(addprefix $(SRC_DIR)/, medallion.md lemmas.k.md storage.k.md prelude.smt2.md)
+SRCS = $(addprefix $(SRC_DIR)/, token.md lemmas.k.md storage.k.md prelude.smt2.md)
 DAPP_SRCS = $(wildcard $(DAPP_DIR)/src/*)
 # if KLAB_OUT isn't defined, default is to use out/
 ifdef KLAB_OUT
@@ -67,14 +67,14 @@ spec: $(SPEC_MANIFEST)
 spec-clean:
 	rm -f $(SPECS_DIR)/* $(ACTS_DIR)/* $(SPEC_MANIFEST)
 
-$(DOC_DIR)/medallion.html: $(SRCS)
+$(DOC_DIR)/token.html: $(SRCS)
 	$(info Generating html documentation: $@)
 	mkdir -p $(DOC_DIR)
 	$(KLAB_FLAGS) klab report > $@
 
-doc: $(DOC_DIR)/medallion.html
+doc: $(DOC_DIR)/token.html
 
-doc-publish: $(DOC_DIR)/medallion.html
+doc-publish: $(DOC_DIR)/token.html
 	$(info $(bold)Publishing$(reset) html docs to stablecoin.technology $<)
 	scp $< root@stablecoin.technology:/var/www/html/index.html
 

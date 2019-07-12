@@ -1,17 +1,37 @@
-# Medallion storage model
-### Ceiling 
+# Token storage model
+### Budget
+```k
+syntax Int ::= "#Budget.wards" "[" Int "]" [function]
+// -----------------------------------------------
+// doc: whether `$0` is an owner of `Budget`
+// act: address `$0` is `. == 1 ? authorised : unauthorised`
+rule #Budget.wards[A] => #hashedLocation("Solidity", 0, A)
 
+syntax Int ::= "#Budget.roof" [function]
+// ----------------------------------------------
+// doc: address of the Ceiling contract
+// act: Ceiling is `$0`
+rule #Budget.roof => 1
+
+syntax Int ::= "#Budget.budgets" "[" Int "]" [function]
+// -----------------------------------------------
+// doc: the available quantity of token for user `$0` to mint 
+// act: budget of address `$0` is `.`  
+rule #Budget.budgets[A] => #hashedLocation("Solidity", 2, A)
+```
+
+### Ceiling
 ```k
 syntax Int ::= "#Ceiling.wards" "[" Int "]" [function]
 // -----------------------------------------------
-// doc: whether `$0` is an owner of `Vat`
+// doc: whether `$0` is an owner of `Ceiling`
 // act: address `$0` is `. == 1 ? authorised : unauthorised`
 rule #Ceiling.wards[A] => #hashedLocation("Solidity", 0, A)
 
-syntax Int ::= "#Ceiling.tkn" [function] 
+syntax Int ::= "#Ceiling.tkn" [function]
 // ----------------------------------------------
-// doc: address of the Medallion token contract
-// act: 
+// doc: address of the `Token` contract
+// act:
 rule #Ceiling.tkn => 1
 
 syntax Int ::= "#Ceiling.roof" [function]
@@ -21,73 +41,49 @@ syntax Int ::= "#Ceiling.roof" [function]
 rule #Ceiling.roof => 2
 ```
 
-### Medallion
+### Token
 ```k
-syntax Int ::= "#Medallion.wards" "[" Int "]" [function]
+syntax Int ::= "#Token.wards" "[" Int "]" [function]
 // -----------------------------------------------
-// doc: whether `$0` is an owner of `Vat`
+// doc: whether `$0` is an owner of `Token`
 // act: address `$0` is `. == 1 ? authorised : unauthorised`
-rule #Medallion.wards[A] => #hashedLocation("Solidity", 0, A)
+rule #Token.wards[A] => #hashedLocation("Solidity", 0, A)
 
-syntax Int ::= "#Medallion.decimals" [function]
-// -----------------------------------------------
-// doc: decimal places in token balances
-// act: The dai token has .` decimal places
-rule #Medallion.decimals => 1
-
-syntax Int ::= "#Medallion.name" [function]
-// -----------------------------------------------
-// doc: the Token name
-// act: this token is called .`
-rule #Medallion.name => 2
-
-syntax Int ::= "#Medallion.symbol" [function]
-// -----------------------------------------------
-// doc: the Token symbol
-// act: this token has symbol .`
-rule #Medallion.symbol => 3
-
-syntax Int ::= "#Medallion.version" [function]
-// -----------------------------------------------
-// doc: the Token name
-// act: this token is version .`
-rule #Medallion.version => 4
-
-syntax Int ::= "#Medallion.totalSupply" [function]
+syntax Int ::= "#Token.totalSupply" [function]
 // -----------------------------------------------
 // doc: the total supply of this token
 // act: the total supply is .`
-rule #Medallion.totalSupply => 5
+rule #Token.totalSupply => 1
 
-syntax Int ::= "#Medallion.balanceOf" "[" Int "]" [function]
+syntax Int ::= "#Token.balanceOf" "[" Int "]" [function]
 // -----------------------------------------------
 // doc: the balance of a user
-// act: the balance of `$0 is .` us , 
-rule #Medallion.balanceOf[A] => #hashedLocation("Solidity", 6, A)
+// act: the balance of `$0 is .` us ,
+rule #Token.balanceOf[A] => #hashedLocation("Solidity", 2, A)
 
-syntax Int ::= "#Medallion.allowance" "[" Int "][" Int "]" [function]
+syntax Int ::= "#Token.allowance" "[" Int "][" Int "]" [function]
 // -----------------------------------------------
 // doc: the amount that can be spent on someones behalf
 // act: `$1 can spend `.` tokens belonging to `$0`
-rule #Medallion.allowance[A][B] => #hashedLocation("Solidity", 7, A B)
+rule #Token.allowance[A][B] => #hashedLocation("Solidity", 3, A B)
 
-syntax Int ::= "#Medallion.nonces" "[" Int "]" [function]
+syntax Int ::= "#Token.nonces" "[" Int "]" [function]
 // -----------------------------------------------
 // doc: the amount that can be spent on someones behalf
 // act: `$1 can spend `.` tokens belonging to `$0`
-rule #Medallion.nonces[A] => #hashedLocation("Solidity", 8, A)
+rule #Token.nonces[A] => #hashedLocation("Solidity", 4, A)
 
-syntax Int ::= "#Medallion.DOMAIN_SEPARATOR" [function]
+syntax Int ::= "#Token.DOMAIN_SEPARATOR" [function]
 // -----------------------------------------------
 // doc: the amount that can be spent on someones behalf
 // act: `$1 can spend `.` tokens belonging to `$0`
-rule #Medallion.DOMAIN_SEPARATOR => 9
+rule #Token.DOMAIN_SEPARATOR => 5
 
-syntax Int ::= "#Medallion.permit_TYPEHASH" [function]
+syntax Int ::= "#Token.permit_TYPEHASH" [function]
 // -----------------------------------------------
 // doc: the amount that can be spent on someones behalf
 // act: `$1 can spend `.` tokens belonging to `$0`
-rule #Medallion.permit_TYPEHASH => 10
+rule #Token.permit_TYPEHASH => 6
 ```
 
 
