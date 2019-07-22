@@ -11,15 +11,13 @@
   },
   "implementations": {
     "Ceiling": {
-      "solc_output": "./token/out/ceiling.sol.json"
+      "src": "src/ceiling.sol"
     },
     "Token": {
-      "name": "Token",
-      "solc_output": "./token/out/token.sol.json"
+      "src": "src/token.sol"
     },
     "Budget": {
-      "name": "Budget",
-      "solc_output": "./token/out/budget.sol.json"
+      "src": "src/budget.sol"
     }
   },
   "dapp_root": "./token",
