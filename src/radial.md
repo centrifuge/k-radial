@@ -1,4 +1,4 @@
-What follows is an executable K specification of the smart contracts for the Centrifuge Token Token. Thanks goes to DappHub for their work on multicollateral dai.
+What follows is an executable K specification of the smart contracts for the Centrifuge Radial Token. Thanks goes to DappHub for their work on multicollateral dai.
 
 # Budget
 The ceiling contract is a ward on a token contract and limits minting to never succeed a set limit on totalSupply.
@@ -198,7 +198,7 @@ interface mint(address usr, uint wad)
 
 types
 
-    Token         : address Token
+    Radial        : address Radial 
     Ceiling       : address Ceiling
     TotalSupply   : uint256
     UsrBal        : uint256
@@ -216,9 +216,9 @@ storage Ceiling
 
     wards[ACCT_ID]     |-> May_ceiling
     roof               |-> Roof
-    tkn                |-> Token
+    tkn                |-> Radial 
 
-storage Token
+storage Radial 
 
     balanceOf[usr]     |-> UsrBal => UsrBal + wad
     totalSupply        |-> TotalSupply => TotalSupply + wad
@@ -245,7 +245,7 @@ calls
     Ceiling.mint
 
 if
-    Token =/= Ceiling
+    Radial =/= Ceiling
 ```
 
 # Ceiling
@@ -300,7 +300,7 @@ interface tkn()
 
 types
 
-    Tkn: address Token
+    Tkn: address Radial 
 
 storage
   // maximum value of tokenSupply that can be reached
@@ -422,7 +422,7 @@ interface mint(address usr, uint wad)
 
 types
 
-    Token     : address Token
+    Radial        : address Radial
     Roof          : uint256
     TotalSupply   : uint256
     UsrBal        : uint256
@@ -432,10 +432,10 @@ types
 storage
 
     wards[CALLER_ID] |-> May
-    tkn              |-> Token
+    tkn              |-> Radial 
     roof             |-> Roof
 
-storage Token
+storage Radial 
     balanceOf[usr]   |-> UsrBal => UsrBal + wad
     totalSupply      |-> TotalSupply => TotalSupply + wad
     wards[ACCT_ID]   |-> May_medallion
@@ -459,9 +459,9 @@ iff
 calls
 
     Ceiling.adduu
-    Token.mint
-    Token.totalSupply
-    Token.balanceOf
+    Radial.mint
+    Radial.totalSupply
+    Radial.balanceOf
 ```
 
 ### Lemmas
@@ -476,16 +476,16 @@ if
     // TODO: strengthen
     #sizeWordStack(WS) <= 1000
 ```
-# Token
+# Radial 
 
-The `Token` contract is the user facing ERC20 contract maintaining the accounting for external Token balances. Most functions are standard for a token with changing supply, but it also notably features the ability to issue approvals for transferFroms based on signed messages, called `Permit`s.
+The `Radial` contract is the user facing ERC20 contract maintaining the accounting for Radial balances. Most functions are standard for a token with changing supply, but it also notably features the ability to issue approvals for transferFroms based on signed messages, called `Permit`s.
 
 ## Specification of behaviours
 
 ### Accessors
 
 ```act
-behaviour wards of Token
+behaviour wards of Radial 
 interface wards(address usr)
 
 for all
@@ -504,7 +504,7 @@ returns May
 ```
 
 ```act
-behaviour allowance of Token
+behaviour allowance of Radial 
 interface allowance(address holder, address spender)
 
 types
@@ -523,7 +523,7 @@ returns Allowed
 ```
 
 ```act
-behaviour balanceOf of Token
+behaviour balanceOf of Radial 
 interface balanceOf(address who)
 
 types
@@ -542,7 +542,7 @@ returns Balance
 ```
 
 ```act
-behaviour totalSupply of Token
+behaviour totalSupply of Radial 
 interface totalSupply()
 
 types
@@ -561,7 +561,7 @@ returns Supply
 ```
 
 ```act
-behaviour nonces of Token
+behaviour nonces of Radial 
 interface nonces(address who)
 
 types
@@ -580,7 +580,7 @@ returns Nonce
 ```
 
 ```act
-behaviour decimals of Token
+behaviour decimals of Radial 
 interface decimals()
 
 iff
@@ -591,18 +591,18 @@ returns 18
 ```
 
 ```act
-behaviour name of Token
+behaviour name of Radial 
 interface name()
 
 iff
 
     VCallValue == 0
 
-returnsRaw #asByteStackInWidthaux(32, 31, 32, #enc(#string("Centrifuge Token")))
+returnsRaw #asByteStackInWidthaux(32, 31, 32, #enc(#string("Radial")))
 ```
 
 ```act
-behaviour version of Token
+behaviour version of Radial 
 interface version()
 
 iff
@@ -613,7 +613,7 @@ returnsRaw #asByteStackInWidthaux(32, 31, 32, #enc(#string("1")))
 ```
 
 ```act
-behaviour symbol of Token
+behaviour symbol of Radial 
 interface symbol()
 
 iff
@@ -624,7 +624,7 @@ returnsRaw #asByteStackInWidthaux(32, 31, 32, #enc(#string("CENT")))
 ```
 
 ```act
-behaviour PERMIT_TYPEHASH of Token
+behaviour PERMIT_TYPEHASH of Radial 
 interface PERMIT_TYPEHASH()
 
 iff
@@ -635,7 +635,7 @@ returns keccak(#parseByteStackRaw("Permit(address holder,address spender,uint256
 ```
 
 ```act
-behaviour DOMAIN_SEPARATOR of Token
+behaviour DOMAIN_SEPARATOR of Radial 
 interface DOMAIN_SEPARATOR()
 
 for all
@@ -661,7 +661,7 @@ returns Dom
 Any owner can add and remove owners.
 
 ```act
-behaviour rely-diff of Token
+behaviour rely-diff of Radial 
 interface rely(address usr)
 
 for all
@@ -685,7 +685,7 @@ if
 ```
 
 ```act
-behaviour rely-same of Token
+behaviour rely-same of Radial 
 interface rely(address usr)
 
 for all
@@ -707,7 +707,7 @@ if
 ```
 
 ```act
-behaviour deny-diff of Token
+behaviour deny-diff of Radial 
 interface deny(address usr)
 
 for all
@@ -731,7 +731,7 @@ if
 ```
 
 ```act
-behaviour deny-same of Token
+behaviour deny-same of Radial 
 interface deny(address usr)
 
 for all
@@ -754,7 +754,7 @@ if
 ```
 
 ```act
-behaviour adduu of Token
+behaviour adduu of Radial 
 interface add(uint256 x, uint256 y) internal
 
 stack
@@ -772,7 +772,7 @@ if
 ```
 
 ```act
-behaviour subuu of Token
+behaviour subuu of Radial 
 interface sub(uint256 x, uint256 y) internal
 
 stack
@@ -790,7 +790,7 @@ if
 ```
 
 ```act
-behaviour transfer-diff of Token
+behaviour transfer-diff of Radial 
 interface transfer(address dst, uint wad)
 
 types
@@ -813,18 +813,19 @@ iff
     VCallValue == 0
 
 if
+
     CALLER_ID =/= dst
 
 returns 1
 
 calls
 
-    Token.adduu
-    Token.subuu
+    Radial.adduu
+    Radial.subuu
 ```
 
 ```act
-behaviour transfer-same of Token
+behaviour transfer-same of Radial 
 interface transfer(address dst, uint wad)
 
 types
@@ -851,12 +852,12 @@ returns 1
 
 calls
 
-    Token.adduu
-    Token.subuu
+    Radial.adduu
+    Radial.subuu
 ```
 
 ```act
-behaviour transferFrom-diff of Token
+behaviour transferFrom-diff of Radial 
 interface transferFrom(address src, address dst, uint wad)
 
 types
@@ -887,12 +888,12 @@ returns 1
 
 calls
 
-    Token.adduu
-    Token.subuu
+    Radial.adduu
+    Radial.subuu
 ```
 
 ```act
-behaviour move-diff of Token
+behaviour move-diff of Radial 
 interface move(address src, address dst, uint wad)
 
 types
@@ -921,11 +922,11 @@ if
 
 calls
 
-    Token.transferFrom-diff
+    Radial.transferFrom-diff
 ```
 
 ```act
-behaviour push of Token
+behaviour push of Radial 
 interface push(address dst, uint wad)
 
 types
@@ -951,11 +952,11 @@ if
 
 calls
 
-    Token.transferFrom-diff
+    Radial.transferFrom-diff
 ```
 
 ```act
-behaviour pull of Token
+behaviour pull of Radial 
 interface pull(address src, uint wad)
 
 types
@@ -984,11 +985,11 @@ if
 
 calls
 
-    Token.transferFrom-diff
+    Radial.transferFrom-diff
 ```
 
 ```act
-behaviour transferFrom-same of Token
+behaviour transferFrom-same of Radial 
 interface transferFrom(address src, address dst, uint wad)
 
 types
@@ -1016,12 +1017,12 @@ returns 1
 
 calls
 
-    Token.adduu
-    Token.subuu
+    Radial.adduu
+    Radial.subuu
 ```
 
 ```act
-behaviour mint of Token
+behaviour mint of Radial 
 interface mint(address dst, uint wad)
 
 types
@@ -1047,11 +1048,11 @@ iff
 
 calls
 
-    Token.adduu
+    Radial.adduu
 ```
 
 ```act
-behaviour burn of Token
+behaviour burn of Radial 
 interface burn(address src, uint wad)
 
 types
@@ -1078,12 +1079,12 @@ iff
 
 calls
 
-    Token.subuu
+    Radial.subuu
 ```
 
 
 ```act
-behaviour approve of Token
+behaviour approve of Radial 
 interface approve(address usr, uint wad)
 
 types
@@ -1101,7 +1102,7 @@ returns 1
 ```
 
 ```act
-behaviour permit of Token
+behaviour permit of Radial 
 interface permit(address hodler, address ombudsman, uint256 n, uint256 ttl, bool may, uint8 v, bytes32 r, bytes32 s)
 
 types

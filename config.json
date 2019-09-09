@@ -1,8 +1,8 @@
 {
-  "name": "k-token",
-  "url": "https://github.com/lucasvo/k-token/",
+  "name": "k-radial",
+  "url": "https://github.com/centrifuge/k-radial/",
   "src": {
-    "specification": "./src/token.md",
+    "specification": "./src/radial.md",
     "smt_prelude": "./src/prelude.smt2.md",
     "rules": [
       "./src/storage.k.md",
@@ -13,13 +13,13 @@
     "Ceiling": {
       "src": "src/ceiling.sol"
     },
-    "Token": {
-      "src": "src/token.sol"
+    "Radial": {
+      "src": "src/radial.sol"
     },
     "Budget": {
       "src": "src/budget.sol"
     }
   },
-  "dapp_root": "./token",
+  "dapp_root": "./radial",
   "host": "127.0.0.1:8080"
 }
