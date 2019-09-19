@@ -1,7 +1,7 @@
 What follows is an executable K specification of the smart contracts for the Centrifuge Radial Token. Thanks goes to DappHub for their work on multicollateral dai.
 
 # Budget
-The ceiling contract is a ward on a token contract and limits minting to never succeed a set limit on totalSupply.
+The Budget contract keeps track of addresses and number of tokens they are allowed to mint. A ward can set the budget per address and any address with a budget can call mint.
 
 ## Specification of behaviours
 
@@ -249,7 +249,7 @@ if
 ```
 
 # Ceiling
-The ceiling contract is a ward on a token contract and limits minting to never succeed a set limit on totalSupply.
+The Ceiling is the first ward, it's only purpose is to verify that any call to mint() would not result in the token available supply to surpass the limit that is hardcoded in the Ceiling contract.
 
 ## Specification of behaviours
 
@@ -620,7 +620,7 @@ iff
 
     VCallValue == 0
 
-returnsRaw #asByteStackInWidthaux(32, 31, 32, #enc(#string("CENT")))
+returnsRaw #asByteStackInWidthaux(32, 31, 32, #enc(#string("RAD")))
 ```
 
 ```act
