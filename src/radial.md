@@ -198,7 +198,7 @@ interface mint(address usr, uint wad)
 
 types
 
-    Radial        : address Radial 
+    Radial        : address Radial
     Ceiling       : address Ceiling
     TotalSupply   : uint256
     UsrBal        : uint256
@@ -216,9 +216,9 @@ storage Ceiling
 
     wards[ACCT_ID]     |-> May_ceiling
     roof               |-> Roof
-    tkn                |-> Radial 
+    tkn                |-> Radial
 
-storage Radial 
+storage Radial
 
     balanceOf[usr]     |-> UsrBal => UsrBal + wad
     totalSupply        |-> TotalSupply => TotalSupply + wad
@@ -230,7 +230,7 @@ iff in range uint256
     UsrBal + wad
 
 iff
-    
+
     TotalSupply + wad <= Roof
 
     // act: caller `. ? : not` authorised
@@ -300,7 +300,7 @@ interface tkn()
 
 types
 
-    Tkn: address Radial 
+    Tkn: address Radial
 
 storage
   // maximum value of tokenSupply that can be reached
@@ -432,10 +432,10 @@ types
 storage
 
     wards[CALLER_ID] |-> May
-    tkn              |-> Radial 
+    tkn              |-> Radial
     roof             |-> Roof
 
-storage Radial 
+storage Radial
     balanceOf[usr]   |-> UsrBal => UsrBal + wad
     totalSupply      |-> TotalSupply => TotalSupply + wad
     wards[ACCT_ID]   |-> May_medallion
@@ -476,7 +476,7 @@ if
     // TODO: strengthen
     #sizeWordStack(WS) <= 1000
 ```
-# Radial 
+# Radial
 
 The `Radial` contract is the user facing ERC20 contract maintaining the accounting for Radial balances. Most functions are standard for a token with changing supply, but it also notably features the ability to issue approvals for transferFroms based on signed messages, called `Permit`s.
 
@@ -485,7 +485,7 @@ The `Radial` contract is the user facing ERC20 contract maintaining the accounti
 ### Accessors
 
 ```act
-behaviour wards of Radial 
+behaviour wards of Radial
 interface wards(address usr)
 
 for all
@@ -504,7 +504,7 @@ returns May
 ```
 
 ```act
-behaviour allowance of Radial 
+behaviour allowance of Radial
 interface allowance(address holder, address spender)
 
 types
@@ -523,7 +523,7 @@ returns Allowed
 ```
 
 ```act
-behaviour balanceOf of Radial 
+behaviour balanceOf of Radial
 interface balanceOf(address who)
 
 types
@@ -542,7 +542,7 @@ returns Balance
 ```
 
 ```act
-behaviour totalSupply of Radial 
+behaviour totalSupply of Radial
 interface totalSupply()
 
 types
@@ -561,7 +561,7 @@ returns Supply
 ```
 
 ```act
-behaviour nonces of Radial 
+behaviour nonces of Radial
 interface nonces(address who)
 
 types
@@ -580,7 +580,7 @@ returns Nonce
 ```
 
 ```act
-behaviour decimals of Radial 
+behaviour decimals of Radial
 interface decimals()
 
 iff
@@ -591,7 +591,7 @@ returns 18
 ```
 
 ```act
-behaviour name of Radial 
+behaviour name of Radial
 interface name()
 
 iff
@@ -602,7 +602,7 @@ returnsRaw #asByteStackInWidthaux(32, 31, 32, #enc(#string("Radial")))
 ```
 
 ```act
-behaviour version of Radial 
+behaviour version of Radial
 interface version()
 
 iff
@@ -613,7 +613,7 @@ returnsRaw #asByteStackInWidthaux(32, 31, 32, #enc(#string("1")))
 ```
 
 ```act
-behaviour symbol of Radial 
+behaviour symbol of Radial
 interface symbol()
 
 iff
@@ -624,7 +624,7 @@ returnsRaw #asByteStackInWidthaux(32, 31, 32, #enc(#string("RAD")))
 ```
 
 ```act
-behaviour PERMIT_TYPEHASH of Radial 
+behaviour PERMIT_TYPEHASH of Radial
 interface PERMIT_TYPEHASH()
 
 iff
@@ -635,7 +635,7 @@ returns keccak(#parseByteStackRaw("Permit(address holder,address spender,uint256
 ```
 
 ```act
-behaviour DOMAIN_SEPARATOR of Radial 
+behaviour DOMAIN_SEPARATOR of Radial
 interface DOMAIN_SEPARATOR()
 
 for all
@@ -661,7 +661,7 @@ returns Dom
 Any owner can add and remove owners.
 
 ```act
-behaviour rely-diff of Radial 
+behaviour rely-diff of Radial
 interface rely(address usr)
 
 for all
@@ -685,7 +685,7 @@ if
 ```
 
 ```act
-behaviour rely-same of Radial 
+behaviour rely-same of Radial
 interface rely(address usr)
 
 for all
@@ -707,7 +707,7 @@ if
 ```
 
 ```act
-behaviour deny-diff of Radial 
+behaviour deny-diff of Radial
 interface deny(address usr)
 
 for all
@@ -731,7 +731,7 @@ if
 ```
 
 ```act
-behaviour deny-same of Radial 
+behaviour deny-same of Radial
 interface deny(address usr)
 
 for all
@@ -754,7 +754,7 @@ if
 ```
 
 ```act
-behaviour adduu of Radial 
+behaviour adduu of Radial
 interface add(uint256 x, uint256 y) internal
 
 stack
@@ -772,7 +772,7 @@ if
 ```
 
 ```act
-behaviour subuu of Radial 
+behaviour subuu of Radial
 interface sub(uint256 x, uint256 y) internal
 
 stack
@@ -790,7 +790,7 @@ if
 ```
 
 ```act
-behaviour transfer-diff of Radial 
+behaviour transfer-diff of Radial
 interface transfer(address dst, uint wad)
 
 types
@@ -825,7 +825,7 @@ calls
 ```
 
 ```act
-behaviour transfer-same of Radial 
+behaviour transfer-same of Radial
 interface transfer(address dst, uint wad)
 
 types
@@ -857,7 +857,7 @@ calls
 ```
 
 ```act
-behaviour transferFrom-diff of Radial 
+behaviour transferFrom-diff of Radial
 interface transferFrom(address src, address dst, uint wad)
 
 types
@@ -893,7 +893,7 @@ calls
 ```
 
 ```act
-behaviour move-diff of Radial 
+behaviour move-diff of Radial
 interface move(address src, address dst, uint wad)
 
 types
@@ -926,7 +926,7 @@ calls
 ```
 
 ```act
-behaviour push of Radial 
+behaviour push of Radial
 interface push(address dst, uint wad)
 
 types
@@ -956,7 +956,7 @@ calls
 ```
 
 ```act
-behaviour pull of Radial 
+behaviour pull of Radial
 interface pull(address src, uint wad)
 
 types
@@ -989,7 +989,7 @@ calls
 ```
 
 ```act
-behaviour transferFrom-same of Radial 
+behaviour transferFrom-same of Radial
 interface transferFrom(address src, address dst, uint wad)
 
 types
@@ -1022,7 +1022,7 @@ calls
 ```
 
 ```act
-behaviour mint of Radial 
+behaviour mint of Radial
 interface mint(address dst, uint wad)
 
 types
@@ -1052,7 +1052,7 @@ calls
 ```
 
 ```act
-behaviour burn of Radial 
+behaviour burn of Radial
 interface burn(address src, uint wad)
 
 types
@@ -1084,7 +1084,7 @@ calls
 
 
 ```act
-behaviour approve of Radial 
+behaviour approve of Radial
 interface approve(address usr, uint wad)
 
 types
@@ -1102,7 +1102,7 @@ returns 1
 ```
 
 ```act
-behaviour permit of Radial 
+behaviour permit of Radial
 interface permit(address hodler, address ombudsman, uint256 n, uint256 ttl, bool may, uint8 v, bytes32 r, bytes32 s)
 
 types
@@ -1128,7 +1128,6 @@ iff
 if
 
     #rangeUInt(256, Nonce + 1)
-    #rangeUInt(256, ECREC_BAL)
 ```
 
 
