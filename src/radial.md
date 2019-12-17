@@ -1126,7 +1126,7 @@ iff
     VCallDepth < 1024
 
 if
-
+    hodler =/= 0
     #rangeUInt(256, Nonce + 1)
 ```
 
