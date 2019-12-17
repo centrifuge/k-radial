@@ -1,6 +1,6 @@
 with import <nixpkgs> {};
 stdenv.mkDerivation {
-  name = "k-dss";
+  name = "k-radial";
   buildInputs = [
     flex
     getopt
